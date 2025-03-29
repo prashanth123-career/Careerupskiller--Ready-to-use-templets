@@ -84,21 +84,6 @@ with col1:
 with col2:
     if st.button("Purchase Detailed Career Plan (₹199)", key="emailpromo_career"):
         st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/FAsUJ9k">', unsafe_allow_html=True)
-
-# Testimonials
-st.markdown("---")
-st.markdown("""
-<div class="info-section" style="background-color: #1A3550; color: white; padding: 15px; border-radius: 12px; text-align: center; margin-top: 40px;">
-    <p>© 2025 CareerUpskillers | 
-    <a href="https://www.careerupskillers.com/post/the-ultimate-ai-career-guide-jobs-freelancing-and-startups#contact" style="color:white;" target="_blank">Contact Us</a> | 
-    <a href="https://www.careerupskillers.com/about-1" style="color:white;" target="_blank">Privacy</a> | 
-    <a href="https://www.careerupskillers.com/about-1" style="color:white;" target="_blank">About Us</a> | 
-    <a href="https://www.facebook.com/share/18gUeR73H6/" style="color:white;" target="_blank">Facebook</a> | 
-    <a href="https://www.youtube.com/@Careerupskillers" style="color:white;" target="_blank">YouTube</a>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
 st.markdown("### What Our Users Say")
 st.markdown("""
 <div class="testimonial">
