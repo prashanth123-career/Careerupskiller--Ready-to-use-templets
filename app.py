@@ -25,11 +25,11 @@ if 'user_ip' not in st.session_state:
         st.session_state.user_ip = "unknown"
 
 # UI
-st.title("✍️ AI Proposal Writer (Free Version)")
-st.markdown("Only 2 free proposals per session. Upgrade for unlimited access.")
+st.title("✍️ AI Proposal Writer for Freelancers")
+st.markdown("Win more clients with smart, customized proposals powered by AI.")
 
 service_type = st.selectbox("Service Offered", ["AI Chatbot", "Web Development", "Marketing", "Other"])
-client_project = st.text_area("📋 Paste client's project description:")
+client_project = st.text_area("📋 Paste the client's project description:")
 
 MAX_FREE = 2
 
@@ -37,17 +37,28 @@ if st.button("Generate My Proposal"):
     if not client_project.strip():
         st.warning("Please paste a project description.")
     elif st.session_state.proposal_count >= MAX_FREE:
-        st.error("🚫 You've used 2 free proposals.")
+        st.error("🚫 You’ve used 2 free proposals.")
+
         st.markdown("### 💼 Upgrade for Unlimited Proposals")
         st.markdown("""
-        ✅ ₹599/month  
-        ✅ Instant smart proposals  
-        ✅ Time-saving templates  
-        ✅ One-time payment
+Choose a plan to unlock unlimited access:
+- 🟢 ₹120/month (billed monthly)
+- 🟣 ₹999 one-time payment for lifetime access
 
+Get instant access to:
+✅ Unlimited smart proposals  
+✅ Fast response times  
+✅ All future updates  
         """)
-        if st.button("🛒 Upgrade Now (₹599)"):
-            st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/r/your-link">', unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🔓 Unlock Monthly Access (₹120)", key="monthly"):
+                st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/JujI2Kao">', unsafe_allow_html=True)
+        with col2:
+            if st.button("💼 One-Time Payment (₹999)", key="onetime"):
+                st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/KWPswOe9">', unsafe_allow_html=True)
+
     else:
         with st.spinner("Generating your proposal..."):
             prompt = f"Write a professional freelance proposal for a project about {client_project}. Service: {service_type}."
@@ -57,6 +68,7 @@ if st.button("Generate My Proposal"):
 
             st.session_state.proposal_count += 1
             st.info(f"🎁 {MAX_FREE - st.session_state.proposal_count} free proposals left")
+
 # --- Promotional Section ---
 st.markdown("""
 <div class="promo-section">
@@ -94,22 +106,20 @@ st.markdown("""
     <p><i>“The Detailed Career Plan gave me a clear path to follow and free courses to upskill!” – Priya, Student, India</i></p>
 </div>
 """, unsafe_allow_html=True)
-# Custom CSS to hide Streamlit elements and show branding
+
+# Custom CSS to hide Streamlit branding and show your footer
 st.markdown("""
 <style>
-    /* Hide default Streamlit header and footer */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-
-    /* Custom top branding section */
     .info-section {
         background: linear-gradient(90deg, #2AB7CA 0%, #1A3550 100%);
         color: white;
         padding: 10px;
         border-radius: 0 0 12px 12px;
         text-align: center;
-        margin-bottom: 20px;
+        margin-top: 40px;
         font-size: 14px;
     }
     .info-section a {
@@ -119,7 +129,6 @@ st.markdown("""
     }
 </style>
 
-<!-- Top Branding Bar -->
 <div class="info-section">
     © 2025 CareerUpskillers |
     <a href="https://www.careerupskillers.com/about-1">About Us</a> |
