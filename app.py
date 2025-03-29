@@ -57,3 +57,77 @@ if st.button("Generate My Proposal"):
 
             st.session_state.proposal_count += 1
             st.info(f"🎁 {MAX_FREE - st.session_state.proposal_count} free proposals left")
+# --- Promotional Section ---
+st.markdown("""
+<div class="promo-section">
+    <h2>Unlock Your Freelancer Success: Use AI Tools, Strategic Plans, and Free Learning Resources for a Career Transformation! 🚀✨</h2>
+    <p>Discover More and Share Your Dreams!</p>
+    <h3>3 Steps to Enhance Your Freelance Journey:</h3>
+    <ul>
+        <li>1. Use our AI Freelancer Kit for ready-to-use templates and tools.</li>
+        <li>2. Get our Detailed Career Plan for market insights and strategies.</li>
+        <li>3. Leverage our free video links to expand your skills.</li>
+    </ul>
+    <p><strong>Free Ready-to-Use Chatbot Script Included!</strong></p>
+    <p>Join 3,000+ happy buyers around the globe! Get a ₹10,000 worth AI Starter Tool for just ₹499 and receive free AI career counseling. For detailed career counseling, pay only ₹199 to get market insights, skills to upskill, salary comparisons, and companies to apply to.</p>
+    <p>Follow the kit and start earning – don’t only rely on jobs as it’s uncertain! Just spend 8 hours on a weekend and start a new earning stream. Half of our students have quit their jobs within six months of purchasing!</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Purchase Buttons
+col1, col2 = st.columns(2)
+with col1:
+    if st.button("Purchase AI Freelancer Kit (₹499)", key="emailpromo_freelancer"):
+        st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/t37swnF">', unsafe_allow_html=True)
+with col2:
+    if st.button("Purchase Detailed Career Plan (₹199)", key="emailpromo_career"):
+        st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/FAsUJ9k">', unsafe_allow_html=True)
+
+# Testimonials
+st.markdown("---")
+st.markdown("### What Our Users Say")
+st.markdown("""
+<div class="testimonial">
+    <p><i>“The AI Freelancer Kit helped me double my income in just 3 months!” – Ahmed, Freelancer, UAE</i></p>
+</div>
+<div class="testimonial">
+    <p><i>“The Detailed Career Plan gave me a clear path to follow and free courses to upskill!” – Priya, Student, India</i></p>
+</div>
+""", unsafe_allow_html=True)
+# Custom CSS to hide Streamlit elements and show branding
+st.markdown("""
+<style>
+    /* Hide default Streamlit header and footer */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+
+    /* Custom top branding section */
+    .info-section {
+        background: linear-gradient(90deg, #2AB7CA 0%, #1A3550 100%);
+        color: white;
+        padding: 10px;
+        border-radius: 0 0 12px 12px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    .info-section a {
+        color: white;
+        text-decoration: none;
+        margin: 0 8px;
+    }
+</style>
+
+<!-- Top Branding Bar -->
+<div class="info-section">
+    © 2025 CareerUpskillers |
+    <a href="https://www.careerupskillers.com/about-1">About Us</a> |
+    <a href="https://www.careerupskillers.com/about-1">Privacy</a> |
+    <a href="https://wa.me/917892116728">Call/WhatsApp</a> |
+    <a href="https://www.youtube.com/@Careerupskillers">YouTube</a> |
+    <a href="https://www.facebook.com/share/18gUeR73H6/">Facebook</a> |
+    <a href="https://www.linkedin.com/company/careerupskillers/">LinkedIn</a> |
+    <a href="https://www.instagram.com/careerupskillers?igsh=YWNmOGMwejBrb24z">Instagram</a>
+</div>
+""", unsafe_allow_html=True)
