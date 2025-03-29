@@ -96,4 +96,18 @@ st.markdown("""
     <p><i>“The Detailed Career Plan gave me a clear path to follow and free courses to upskill!” – Priya, Student, India</i></p>
 </div>
 """, unsafe_allow_html=True)
+# Footer with Branding, Privacy, and Social Links
+st.markdown("""
+<div class="info-section">
+    <p>© 2025 CareerUpskillers | 
+    <a href="https://www.careerupskillers.com/about-1" style="color:white;">About Us</a> | 
+    <a href="https://www.careerupskillers.com/about-1" style="color:white;">Privacy Policy</a> | 
+    <a href="https://wa.me/917892116728" style="color:white;">Call/WhatsApp</a> | 
+    <a href="https://www.linkedin.com/company/careerupskillers/" style="color:white;">LinkedIn</a> | 
+    <a href="https://www.instagram.com/careerupskillers?igsh=YWNmOGMwejBrb24z" style="color:white;">Instagram</a> | 
+    <a href="https://www.youtube.com/@Careerupskillers" style="color:white;">YouTube</a> | 
+    <a href="https://www.facebook.com/share/18gUeR73H6/" style="color:white;">Facebook</a>
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
