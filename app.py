@@ -109,4 +109,42 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 # Footer with Branding, Privacy, and Social Links
+# Custom CSS to hide Streamlit elements and show branding
+st.markdown("""
+<style>
+    /* Hide default Streamlit header and footer */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+
+    /* Custom top branding section */
+    .info-section {
+        background: linear-gradient(90deg, #2AB7CA 0%, #1A3550 100%);
+        color: white;
+        padding: 10px;
+        border-radius: 0 0 12px 12px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    .info-section a {
+        color: white;
+        text-decoration: none;
+        margin: 0 8px;
+    }
+</style>
+
+<!-- Top Branding Bar -->
+<div class="info-section">
+    © 2025 CareerUpskillers |
+    <a href="https://www.careerupskillers.com/about-1">About Us</a> |
+    <a href="https://www.careerupskillers.com/about-1">Privacy</a> |
+    <a href="https://wa.me/917892116728">Call/WhatsApp</a> |
+    <a href="https://www.youtube.com/@Careerupskillers">YouTube</a> |
+    <a href="https://www.facebook.com/share/18gUeR73H6/">Facebook</a> |
+    <a href="https://www.linkedin.com/company/careerupskillers/">LinkedIn</a> |
+    <a href="https://www.instagram.com/careerupskillers?igsh=YWNmOGMwejBrb24z">Instagram</a>
+</div>
+""", unsafe_allow_html=True)
+
 
