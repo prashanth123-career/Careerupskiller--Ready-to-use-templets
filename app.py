@@ -2,87 +2,72 @@ import streamlit as st
 from transformers import pipeline
 import uuid
 
-# Page config
+# --- Page Setup ---
 st.set_page_config(page_title="AI Proposal Writer", page_icon="✍️", layout="centered")
 
-# Load smarter proposal-writing model
+# --- Load Proposal Generation Model ---
 @st.cache_resource
 def load_model():
     return pipeline("text2text-generation", model="google/flan-t5-base", max_length=512)
 
 generator = load_model()
 
-# Session management
-if 'proposal_count' not in st.session_state:
-    st.session_state.proposal_count = 0
+# --- Session State ---
 if 'session_id' not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
-MAX_FREE = 2
-
-# Default sample project briefs by service
+# --- Default Project Descriptions ---
 default_projects = {
-    "AI Chatbot": "I need an AI chatbot that can assist customers on my website, answer product-related questions, and provide support 24/7. It should handle both text and voice inputs, and integrate with WhatsApp.",
+    "AI Chatbot": "I need an AI chatbot that can assist customers on my website, answer product-related questions, and provide support 24/7. It should handle both text and voice inputs and integrate with WhatsApp.",
     "Web Development": "I need a responsive website for my business that includes a homepage, about section, services page, contact form, and blog. The website should be mobile-friendly, SEO optimized, and fast-loading.",
-    "Marketing": "I need a digital marketing strategy for my product launch, including SEO, email marketing, and paid ads to drive conversions.",
-    "UI/UX Design": "I want a user-friendly mobile app interface focused on smooth navigation and aesthetic appeal for both iOS and Android platforms.",
-    "Data Analytics": "I need a dashboard that visualizes customer data, sales performance, and helps track key business KPIs in real-time.",
+    "Marketing": "I need a digital marketing strategy for my product launch, including social media ads, SEO, and email campaigns.",
+    "UI/UX Design": "I need a user-friendly mobile app design with modern visuals and a seamless user experience.",
+    "Data Analytics": "I want to build a dashboard that shows real-time insights into my sales and customer behavior.",
     "Other": ""
 }
 
-# --- UI ---
+# --- UI Layout ---
 st.title("✍️ AI Proposal Writer for Freelancers")
 st.markdown("Win more clients with smart, customized proposals powered by AI.")
 
-# Select service
-services = list(default_projects.keys())
-selected_service = st.selectbox("Service Offered", services)
+# --- Service Selection ---
+service_options = list(default_projects.keys())
+selected_service = st.selectbox("🛠 Service Offered", service_options)
 
-# If "Other", allow custom input
+# Custom Service Input if "Other"
 custom_service = ""
 if selected_service == "Other":
-    custom_service = st.text_input("Enter your custom service name:")
-    final_service = custom_service.strip() or "Custom Service"
+    custom_service = st.text_input("Please specify your service:")
+    final_service = custom_service.strip() if custom_service.strip() else "Custom Service"
 else:
     final_service = selected_service
 
-# Project description input or autofill
-project_input = st.text_area("📋 Paste the client's project description (or leave blank to use default):")
+# --- Project Description Input ---
+project_input = st.text_area("📋 Paste the client's project description (or leave blank to use our template):")
 
+# Auto-fill with default if blank
 if not project_input.strip() and selected_service != "Other":
     project_input = default_projects[selected_service]
 
-# --- Proposal Generation ---
+# --- Generate Proposal ---
 if st.button("Generate My Proposal"):
     if not final_service.strip():
-        st.warning("Please enter a service name.")
-    elif st.session_state.proposal_count >= MAX_FREE:
-        st.error("🚫 You’ve used 2 free proposals.")
-        st.markdown("### 💼 Upgrade for Unlimited Proposals")
-        st.markdown("""
-- 🟢 ₹120/month (billed monthly)  
-- 🟣 ₹999 one-time payment for lifetime access  
-        """)
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("🔓 Monthly Access (₹120)", key="monthly"):
-                st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/JujI2Kao">', unsafe_allow_html=True)
-        with col2:
-            if st.button("💼 Lifetime Access (₹999)", key="onetime"):
-                st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/KWPswOe9">', unsafe_allow_html=True)
+        st.warning("⚠️ Please specify your service.")
     else:
-        with st.spinner("Generating your proposal..."):
-            prompt = f"Write a detailed and professional freelance proposal for the following project:\n\nService: {final_service}\nProject Description: {project_input}"
+        with st.spinner("Generating your smart proposal..."):
+            prompt = f"""Write a detailed freelance proposal for the following project:
+
+Service: {final_service}
+Project Description: {project_input}
+"""
             try:
-                output = generator(prompt, do_sample=False)[0]['generated_text']
-                st.subheader("✅ Your Proposal")
-                st.success(output.strip())
-                st.session_state.proposal_count += 1
-                st.info(f"🎁 {MAX_FREE - st.session_state.proposal_count} free proposals left.")
+                result = generator(prompt)[0]['generated_text']
+                st.subheader("✅ Your Custom Proposal")
+                st.success(result)
             except Exception as e:
                 st.error(f"❌ Error generating proposal: {e}")
 
-# --- Promo Section ---
+# --- Promotional Section ---
 st.markdown("---")
 st.markdown("### 🚀 Boost Your Freelance Career")
 st.markdown("""
@@ -91,7 +76,7 @@ Get the **AI Freelancer Kit** and **Detailed Career Plan** at amazing prices:
 - ₹499 for the AI Freelancer Kit (ready-to-use templates)
 - ₹199 for Career Counseling (jobs, salaries, skills)
 
-Get access now and grow your freelance journey!
+Start today and change your future!
 """)
 
 col1, col2 = st.columns(2)
@@ -101,3 +86,19 @@ with col1:
 with col2:
     if st.button("📊 Career Plan (₹199)", key="career_plan"):
         st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/FAsUJ9k">', unsafe_allow_html=True)
+
+# --- Testimonials ---
+st.markdown("---")
+st.markdown("### ❤️ What Our Users Say")
+st.markdown("""
+<div class="testimonial">
+    <p><i>“The AI Freelancer Kit helped me double my income in just 3 months!” – Ahmed, Freelancer, UAE</i></p>
+</div>
+<div class="testimonial">
+    <p><i>“The Detailed Career Plan gave me a clear path to follow and free courses to upskill!” – Priya, Student, India</i></p>
+</div>
+""", unsafe_allow_html=True)
+
+# --- Footer ---
+st.markdown("---")
+st.caption("🚀 Powered by CareerUpskillers | Transforming Freelancers into Winners")
