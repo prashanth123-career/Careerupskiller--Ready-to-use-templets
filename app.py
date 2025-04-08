@@ -2,17 +2,17 @@ import streamlit as st
 from transformers import pipeline
 import uuid
 
-# Streamlit page setup
+# Page config
 st.set_page_config(page_title="AI Proposal Writer", page_icon="✍️", layout="centered")
 
-# Load text generation model (free)
+# Load smarter proposal-writing model
 @st.cache_resource
 def load_model():
-    return pipeline("text2text-generation", model="t5-small")
+    return pipeline("text2text-generation", model="google/flan-t5-base", max_length=512)
 
 generator = load_model()
 
-# Initialize session
+# Session management
 if 'proposal_count' not in st.session_state:
     st.session_state.proposal_count = 0
 if 'session_id' not in st.session_state:
@@ -20,40 +20,39 @@ if 'session_id' not in st.session_state:
 
 MAX_FREE = 2
 
-# Default templates by service
+# Default sample project briefs by service
 default_projects = {
-    "AI Chatbot": "I need an AI chatbot to help customers on my website, answer product-related questions, and provide support 24/7. It should handle both text and voice inputs, and integrate with WhatsApp.",
-    "Web Development": "I want a modern, responsive website for my business with user authentication and a clean dashboard.",
-    "Marketing": "I need a digital marketing strategy for my product launch, including SEO, ads, and email campaigns.",
-    "UI/UX Design": "I need an intuitive mobile app design focused on user engagement and retention.",
-    "Data Analytics": "I need a dashboard to analyze my sales data and customer behavior for better decision-making.",
+    "AI Chatbot": "I need an AI chatbot that can assist customers on my website, answer product-related questions, and provide support 24/7. It should handle both text and voice inputs, and integrate with WhatsApp.",
+    "Web Development": "I need a responsive website for my business that includes a homepage, about section, services page, contact form, and blog. The website should be mobile-friendly, SEO optimized, and fast-loading.",
+    "Marketing": "I need a digital marketing strategy for my product launch, including SEO, email marketing, and paid ads to drive conversions.",
+    "UI/UX Design": "I want a user-friendly mobile app interface focused on smooth navigation and aesthetic appeal for both iOS and Android platforms.",
+    "Data Analytics": "I need a dashboard that visualizes customer data, sales performance, and helps track key business KPIs in real-time.",
     "Other": ""
 }
 
-# --- UI Layout ---
+# --- UI ---
 st.title("✍️ AI Proposal Writer for Freelancers")
 st.markdown("Win more clients with smart, customized proposals powered by AI.")
 
-# Service selection
-service_options = list(default_projects.keys())
-selected_service = st.selectbox("Service Offered", service_options)
+# Select service
+services = list(default_projects.keys())
+selected_service = st.selectbox("Service Offered", services)
 
-# If user selects 'Other', let them type the custom service
+# If "Other", allow custom input
 custom_service = ""
 if selected_service == "Other":
-    custom_service = st.text_input("Please specify your service:")
-    final_service = custom_service if custom_service else "Custom Service"
+    custom_service = st.text_input("Enter your custom service name:")
+    final_service = custom_service.strip() or "Custom Service"
 else:
     final_service = selected_service
 
-# Project description input
-project_input = st.text_area("📋 Paste the client's project description (or leave blank to use our template):")
+# Project description input or autofill
+project_input = st.text_area("📋 Paste the client's project description (or leave blank to use default):")
 
-# Use default template if blank
 if not project_input.strip() and selected_service != "Other":
     project_input = default_projects[selected_service]
 
-# --- Generate Proposal ---
+# --- Proposal Generation ---
 if st.button("Generate My Proposal"):
     if not final_service.strip():
         st.warning("Please enter a service name.")
@@ -73,11 +72,11 @@ if st.button("Generate My Proposal"):
                 st.markdown('<meta http-equiv="refresh" content="0;url=https://rzp.io/rzp/KWPswOe9">', unsafe_allow_html=True)
     else:
         with st.spinner("Generating your proposal..."):
-            prompt = f"Write a professional freelance proposal for a project about: {project_input}. Service offered: {final_service}."
+            prompt = f"Write a detailed and professional freelance proposal for the following project:\n\nService: {final_service}\nProject Description: {project_input}"
             try:
-                output = generator(prompt, max_length=180, min_length=50, do_sample=False)[0]['generated_text']
+                output = generator(prompt, do_sample=False)[0]['generated_text']
                 st.subheader("✅ Your Proposal")
-                st.success(output)
+                st.success(output.strip())
                 st.session_state.proposal_count += 1
                 st.info(f"🎁 {MAX_FREE - st.session_state.proposal_count} free proposals left.")
             except Exception as e:
