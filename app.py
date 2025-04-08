@@ -5,10 +5,10 @@ import uuid
 # --- Page Setup ---
 st.set_page_config(page_title="AI Proposal Writer", page_icon="✍️", layout="centered")
 
-# --- Load AI Proposal Model ---
+# --- Load Proposal Generation Model (Better for Freelance Writing) ---
 @st.cache_resource
 def load_model():
-    return pipeline("text2text-generation", model="google/flan-t5-base", max_length=512)
+    return pipeline("text2text-generation", model="Writer/palmyra-base", max_length=512)
 
 generator = load_model()
 
@@ -16,7 +16,7 @@ generator = load_model()
 if 'session_id' not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
-# --- Default Descriptions ---
+# --- Default Project Descriptions ---
 default_projects = {
     "AI Chatbot": "I need an AI chatbot that can assist customers on my website, answer product-related questions, and provide support 24/7. It should handle both text and voice inputs and integrate with WhatsApp.",
     "Web Development": "I need a responsive website for my business that includes a homepage, about section, services page, contact form, and blog. The website should be mobile-friendly, SEO optimized, and fast-loading.",
@@ -56,19 +56,20 @@ if st.button("Generate My Proposal"):
     else:
         with st.spinner("Creating your smart proposal..."):
             prompt = f"""
-You are a professional freelancer. Write a complete, customized freelance proposal that you would send to a client based on the following:
+Act as a professional freelancer on Upwork. Write a complete freelance proposal for the following service and project:
 
-Service Offered: {final_service}
-Client's Project Description: {project_input}
+Service: {final_service}
+Project Description: {project_input}
 
 Include:
 - Greeting
-- What you offer
-- How your skills help them
-- Deliverables
-- A friendly closing
+- A strong intro about you
+- Your understanding of their problem
+- What you’ll deliver
+- How you’ll help
+- A nice closing with a call to action
 
-Make it sound convincing, client-focused, and easy to copy-paste into Upwork or Fiverr.
+Make the proposal clear, friendly, and ready to copy-paste into Upwork or Fiverr.
 """
 
             try:
