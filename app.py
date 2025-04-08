@@ -5,36 +5,36 @@ import uuid
 # --- Page Setup ---
 st.set_page_config(page_title="AI Proposal Writer", page_icon="✍️", layout="centered")
 
-# --- Load Proposal Generation Model ---
+# --- Load AI Proposal Model ---
 @st.cache_resource
 def load_model():
     return pipeline("text2text-generation", model="google/flan-t5-base", max_length=512)
 
 generator = load_model()
 
-# --- Session State ---
+# --- Session Setup ---
 if 'session_id' not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
-# --- Default Project Descriptions ---
+# --- Default Descriptions ---
 default_projects = {
     "AI Chatbot": "I need an AI chatbot that can assist customers on my website, answer product-related questions, and provide support 24/7. It should handle both text and voice inputs and integrate with WhatsApp.",
     "Web Development": "I need a responsive website for my business that includes a homepage, about section, services page, contact form, and blog. The website should be mobile-friendly, SEO optimized, and fast-loading.",
-    "Marketing": "I need a digital marketing strategy for my product launch, including social media ads, SEO, and email campaigns.",
+    "Marketing": "I need a social media marketing expert to manage and grow my business presence on platforms like Instagram, Facebook, and LinkedIn. The goal is to increase brand awareness, engagement, and lead generation. The strategy should include content creation, scheduling posts, running paid ad campaigns, and monthly performance reports.",
     "UI/UX Design": "I need a user-friendly mobile app design with modern visuals and a seamless user experience.",
     "Data Analytics": "I want to build a dashboard that shows real-time insights into my sales and customer behavior.",
     "Other": ""
 }
 
-# --- UI Layout ---
+# --- UI ---
 st.title("✍️ AI Proposal Writer for Freelancers")
-st.markdown("Win more clients with smart, customized proposals powered by AI.")
+st.markdown("Create smart, ready-to-send freelance proposals in seconds with AI.")
 
-# --- Service Selection ---
+# --- Select Service ---
 service_options = list(default_projects.keys())
 selected_service = st.selectbox("🛠 Service Offered", service_options)
 
-# Custom Service Input if "Other"
+# Custom Service
 custom_service = ""
 if selected_service == "Other":
     custom_service = st.text_input("Please specify your service:")
@@ -42,10 +42,10 @@ if selected_service == "Other":
 else:
     final_service = selected_service
 
-# --- Project Description Input ---
+# Project Description
 project_input = st.text_area("📋 Paste the client's project description (or leave blank to use our template):")
 
-# Auto-fill with default if blank
+# Use default if blank
 if not project_input.strip() and selected_service != "Other":
     project_input = default_projects[selected_service]
 
@@ -54,12 +54,23 @@ if st.button("Generate My Proposal"):
     if not final_service.strip():
         st.warning("⚠️ Please specify your service.")
     else:
-        with st.spinner("Generating your smart proposal..."):
-            prompt = f"""Write a detailed freelance proposal for the following project:
+        with st.spinner("Creating your smart proposal..."):
+            prompt = f"""
+You are a professional freelancer. Write a complete, customized freelance proposal that you would send to a client based on the following:
 
-Service: {final_service}
-Project Description: {project_input}
+Service Offered: {final_service}
+Client's Project Description: {project_input}
+
+Include:
+- Greeting
+- What you offer
+- How your skills help them
+- Deliverables
+- A friendly closing
+
+Make it sound convincing, client-focused, and easy to copy-paste into Upwork or Fiverr.
 """
+
             try:
                 result = generator(prompt)[0]['generated_text']
                 st.subheader("✅ Your Custom Proposal")
@@ -67,7 +78,7 @@ Project Description: {project_input}
             except Exception as e:
                 st.error(f"❌ Error generating proposal: {e}")
 
-# --- Promotional Section ---
+# --- Promo Section ---
 st.markdown("---")
 st.markdown("### 🚀 Boost Your Freelance Career")
 st.markdown("""
@@ -101,4 +112,4 @@ st.markdown("""
 
 # --- Footer ---
 st.markdown("---")
-st.caption("🚀 Powered by CareerUpskillers | Transforming Freelancers into Winners")
+st.caption("🚀 Powered by CareerUpskillers | Helping Freelancers Win Clients with AI")
