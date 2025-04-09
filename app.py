@@ -8,7 +8,7 @@ st.set_page_config(page_title="AI Proposal Writer", page_icon="✍️", layout="
 # --- Load Proposal Generation Model (Better for Freelance Writing) ---
 @st.cache_resource
 def load_model():
-    return pipeline("text2text-generation", model="Writer/palmyra-base", max_length=512)
+    return pipeline("text2text-generation", model="declare-lab/flan-alpaca-base", max_length=512)
 
 generator = load_model()
 
