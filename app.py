@@ -5,10 +5,10 @@ import uuid
 # --- Page Setup ---
 st.set_page_config(page_title="AI Proposal Writer", page_icon="✍️", layout="centered")
 
-# --- Load Proposal Generation Model (Better for Freelance Writing) ---
+# --- Load Stable, Compatible Model ---
 @st.cache_resource
 def load_model():
-    return pipeline("text2text-generation", model="declare-lab/flan-alpaca-base", max_length=512)
+    return pipeline("text2text-generation", model="google/flan-t5-small", max_length=512)
 
 generator = load_model()
 
@@ -59,7 +59,7 @@ if st.button("Generate My Proposal"):
 Act as a professional freelancer on Upwork. Write a complete freelance proposal for the following service and project:
 
 Service: {final_service}
-Project Description: {project_input}
+Client's Project Description: {project_input}
 
 Include:
 - Greeting
@@ -71,7 +71,6 @@ Include:
 
 Make the proposal clear, friendly, and ready to copy-paste into Upwork or Fiverr.
 """
-
             try:
                 result = generator(prompt)[0]['generated_text']
                 st.subheader("✅ Your Custom Proposal")
